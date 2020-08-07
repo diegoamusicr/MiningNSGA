@@ -15,5 +15,3 @@ if __name__ == '__main__':
     G.add_edge(2, 3, Edge(3, 0.6, 0.9))
     G.add_edge(3, 4, Edge(4, 0.2, 0.1))
     pass
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
