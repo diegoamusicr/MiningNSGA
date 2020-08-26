@@ -6,6 +6,7 @@ if __name__ == '__main__':
     G = Graph()
     G.add_node(Node(NodeType.BANK))
     G.add_node(Node(NodeType.BANK))
+    G.add_node(Node(NodeType.BANK))
     G.add_node(Node(NodeType.ROUT))
     G.add_node(Node(NodeType.ROUT))
     G.add_node(Node(NodeType.ROUT))
