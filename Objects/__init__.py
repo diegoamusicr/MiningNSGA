@@ -1,1 +1,1 @@
-__all__ = ['Graph']
+__all__ = ['Graph', 'Task', 'Truck']

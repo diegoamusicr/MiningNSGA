@@ -2,3 +2,5 @@
 .idea/
 
 Objects/__pycache__/
+
+Solver/__pycache__/
