@@ -8,6 +8,8 @@ class NodeType(Enum):
     CRSH = auto()
     DUMP = auto()
     ROUT = auto()
+    WSHP = auto()
+
 
 class Node:
     def __init__(self, n_type, n_name='', n_capacity=0, n_id=0):

@@ -1,5 +1,6 @@
 from enum import Enum, auto
 
+
 class TaskType(Enum):
     LOAD = auto()
     UNLD = auto()

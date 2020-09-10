@@ -2,39 +2,37 @@ import numpy as np
 import pandas as pd
 from Objects.Task import *
 
+
 class Truck:
-    def __init__(self, t_startnode, t_capacity=0, t_id=0, t_cost=0, t_maintenance='NO'):
+    time_spot = 15
+    time_load = 60
+    time_unload = 20
+    def __init__(self, t_start_node, t_id=0, t_brand='', t_model='', t_rate=0, t_duration=0, t_capacity=-1):
         self.id = t_id
         self.tasks = np.array([]).astype(Task)
-        self.t_startnode = t_startnode
-        self.t_capacity = t_capacity
-        self.t_cost = t_cost
-        self.t_maintenance = t_maintenance
+        self.start_node = t_start_node
+        self.maintenance = (t_rate, t_duration)
+        self.brand = t_brand
+        self.model = t_model
+        self.capacity = t_capacity
+        self.cost = -1
+        self.avg_speed = -1
 
-        # self.getTruckData()
+        #self.get_truck_data()
 
-    # def getTruckData(self):
-    #
-    #     prompt = 'please type 1 for CAT trucks or 2 for KOMATSU trucks'
-    #     code = 0
-    #     while code != 1 or 2:
-    #         code = int(input(prompt))
-    #     if code == 1:
-    #         pd_TruckData = pd.read_csv('OTR TRUCKS DATABASE - CAT.csv')
-    #     if code == 2:
-    #         pd_TruckData = pd.read_csv('OTR TRUCKS DATABASE - KOMATSU.csv')
-    #     prompt = 'please type your truck model'
-    #     code = input(prompt)
-    #     pd_TruckData = pd_TruckData[code]
-    #     t_cost = pd_TruckData.iloc['HOURLY COST ($/h)']
-    #     t_capacity = pd_TruckData.iloc['PAYLOAD(t)']
-    #     prompt = 'please type the approximate frequence in days where maintenance service is done'
-    #     rate = input(prompt)
-    #     prompt = 'please type the approximate time in minutes of the maintenance service duration'
-    #     duration = input(prompt)
-    #     t_maintenance = np.array([rate, duration])
-    #     return t_cost, t_capacity, t_maintenance
-    #
-    # def addQuest(self, quest):
-    #     self.quest_set = np.append(self.quest_set, quest)
-    #     quest.q_truck = self
+    def get_truck_data(self):
+
+        pd_truck_data = pd.read_csv(f'OTR TRUCKS DATABASE - {self.brand.upper()}.csv')
+        pd_truck_data = pd_truck_data[self.model]
+        self.cost = pd_truck_data.iloc['HOURLY COST ($/h)']
+        self.capacity = pd_truck_data.iloc['PAYLOAD(t)']
+        self.avg_speed = pd_truck_data.iloc['6:']
+
+    def add_task(self, task):
+        self.tasks = np.append(self.tasks, task)
+        task.assigned_truck_id = self
+
+    def add_multiple_tasks(self, tasks):
+        self.tasks = np.append(self.tasks, tasks)
+        for task in tasks:
+            task.assigned_truck_id = self

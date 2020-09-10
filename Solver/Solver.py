@@ -10,7 +10,7 @@ class NSGASolver:
         self.graph = graph
         self.trucks = trucks_array
         self.objectives = objectives_array
-        self.truck_load = min([i.t_capacity for i in self.trucks])
+        self.truck_load = min([i.capacity for i in self.trucks])
         self.crusher_node_id = -1
         self.dump_node_id = []
         self.dump_node_count = []
@@ -56,7 +56,7 @@ class NSGASolver:
         return -1
 
     def generate_task_array(self):
-        task_array = []
+        task_array = np.array([]).astype(Task)
         tasks_per_objective = []
         tasks_quantities = []
         for objective in self.objectives:
@@ -76,10 +76,10 @@ class NSGASolver:
             for task_number in range(max_tasks_number):
                 for tasks in tasks_per_objective:
                     if task_number < len(tasks):
-                        task_array += [tasks[task_number]]
+                        task_array = np.concatenate((task_array, [tasks[task_number]]))
 
         elif self.task_array_strategy == 1:  # Join tasks in order of objectives
             for tasks in tasks_per_objective:
-                task_array += tasks
+                task_array = np.concatenate((task_array, tasks))
 
         return task_array

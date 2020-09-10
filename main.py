@@ -23,7 +23,7 @@ if __name__ == '__main__':
     G.add_edge(7, 3, Edge(4, 0.6, 0.1))
     G.add_edge(7, 4, Edge(3, 0.9, 0.3))
 
-    trucks = [Truck(0, 300, t_id=0), Truck(0, 200, t_id=1), Truck(0, 250, t_id=2)]
+    trucks = [Truck(0, t_capacity=300, t_id=0), Truck(0, t_capacity=200, t_id=1), Truck(0, t_capacity=250, t_id=2)]
     objectives = [Objective(3, 5000), Objective(4, 6000), Objective(7, 2400)]
 
     N = NSGASolver(G, trucks, objectives)
