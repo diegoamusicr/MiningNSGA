@@ -37,4 +37,12 @@ if __name__ == '__main__':
     S2.generate_random_solution()
     S3.generate_random_solution()
     S4.generate_random_solution()
+    SC1 = Schedule(G, trucks, tasks, S1, 1)
+    SC2 = Schedule(G, trucks, tasks, S2, 1)
+    SC3 = Schedule(G, trucks, tasks, S3, 1)
+    SC4 = Schedule(G, trucks, tasks, S4, 1)
+    SC1.schedule
+    SC2.schedule
+    SC3.schedule
+    SC4.schedule
     pass
