@@ -23,6 +23,7 @@ class Node:
 class Edge:
 
     def __init__(self, distance=np.inf, friction=0.0, slope=0.0):
+
         self.distance = distance
         self.friction = friction
         self.slope = slope
