@@ -24,6 +24,7 @@ if __name__ == '__main__':
     G.add_edge(7, 1, Edge(1, 0.5, 0.2))
     G.add_edge(7, 3, Edge(4, 0.6, 0.1))
     G.add_edge(7, 4, Edge(3, 0.9, 0.3))
+    G.calculate_paths()
 
     trucks = [Truck(0, t_capacity=300, t_id=0), Truck(0, t_capacity=200, t_id=1), Truck(0, t_capacity=250, t_id=2)]
     objectives = [Objective(3, 5000), Objective(4, 6000), Objective(7, 2400)]
@@ -40,11 +41,11 @@ if __name__ == '__main__':
     S3.generate_random_solution()
     S4.generate_random_solution()
     SC1 = Schedule(G, trucks, tasks, S1, 1)
-    SC2 = Schedule(G, trucks, tasks, S2, 2)
-    SC3 = Schedule(G, trucks, tasks, S3, 3)
+    SC2 = Schedule(G, trucks, tasks, S2, 1)
+    SC3 = Schedule(G, trucks, tasks, S3, 1)
     SC4 = Schedule(G, trucks, tasks, S4, 1)
-    SC1.schedule
-    SC2.schedule
-    SC3.schedule
-    SC4.schedule
+    SC1.calculate_routes()
+    SC2.calculate_routes()
+    SC3.calculate_routes()
+    SC4.calculate_routes()
     pass
