@@ -45,6 +45,8 @@ class Graph:
         self.edges = np.vstack((self.edges, np.array([tmp_row])))
 
     def add_edge(self, node1_id, node2_id, edge):
+        #friction and slope should contain 2 decimals maximum
+
         edge_inv = Edge(edge.distance, edge.friction, -edge.slope)
         self.edges[node1_id, node2_id] = edge
         self.edges[node2_id, node1_id] = edge_inv
