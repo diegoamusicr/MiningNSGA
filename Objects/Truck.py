@@ -7,6 +7,8 @@ class Truck:
     time_spot = 15
     time_load = 60
     time_unload = 20
+    length = 30
+    distance_policy = 2
 
     def __init__(self, t_start_node, t_id=0, t_brand='', t_model='', t_rate=0, t_duration=0, t_capacity=-1):
         self.id = t_id
