@@ -1,4 +1,5 @@
 from Solver.Solution import *
+import copy
 import sys
 
 
@@ -23,7 +24,7 @@ class NSGAII:
         self.objective_min = [0]
         self.objective_max = [1000]
         self.solution_size = len(task_array)
-        self.population_size = 12
+        self.population_size = 24
         self.tournament_size = 3
         self.prob_cross = 0.7
         self.prob_mutation = 0.002 * self.solution_size
@@ -111,7 +112,7 @@ class NSGAII:
                 room -= 1
                 if room <= 0:
                     break
-            np.delete(tmp_population, frontier_idx)
+            tmp_population = np.delete(tmp_population, frontier_idx, 0)
 
     def gen_offspring(self):
         self.offspring = np.array([]).astype(Solution)
@@ -132,7 +133,7 @@ class NSGAII:
                 child2.fix_task_order()
                 self.offspring = np.concatenate((self.offspring, [child1, child2]))
             else:
-                self.offspring = np.concatenate((self.offspring, [parent1, parent2]))
+                self.offspring = np.concatenate((self.offspring, [copy.deepcopy(parent1), copy.deepcopy(parent2)]))
 
     def gen_population(self):
         self.population = np.concatenate((self.parents, self.offspring))
