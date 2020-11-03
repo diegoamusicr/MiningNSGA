@@ -16,14 +16,17 @@ def min_idle_time(solution):
 
 class NSGAII:
     def __init__(self, graph, task_array, trucks_array):
-        self.objective_functions = [min_tasks_per_truck, min_total_time, min_idle_time]
-        self.objective_min = [0, 0, 0]
-        self.objective_max = [1000, 100000, 100000]
+        # self.objective_functions = [min_tasks_per_truck, min_total_time, min_idle_time]
+        # self.objective_min = [0, 0, 0]
+        # self.objective_max = [1000, 100000, 100000]
+        self.objective_functions = [min_tasks_per_truck]
+        self.objective_min = [0]
+        self.objective_max = [1000]
         self.solution_size = len(task_array)
         self.population_size = 12
         self.tournament_size = 3
-        self.prob_cross = 0.001 * self.solution_size
-        self.prob_mutation = 0.1
+        self.prob_cross = 0.7
+        self.prob_mutation = 0.002 * self.solution_size
 
         self.parents = np.array([]).astype(Solution)
         self.offspring = np.array([]).astype(Solution)
@@ -76,7 +79,7 @@ class NSGAII:
         for i in range(len(solutions)):
             dominated = False
             for j in range(len(solutions)):
-                if i != j and (self.population_eval[solutions[i].idx] < self.population_eval[solutions[j].idx]).all():
+                if i != j and (self.population_eval[solutions[j].idx] < self.population_eval[solutions[i].idx]).all():
                     dominated = True
                     break
             if not dominated:
