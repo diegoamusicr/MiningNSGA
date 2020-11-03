@@ -21,12 +21,11 @@ class Truck:
         self.capacity = t_capacity
         self.cost = -1
         self.avg_speed = -1
-
-        # self.get_truck_data()
+        self.get_truck_data()
 
     def get_truck_data(self):
         pd_truck_data = pd.read_csv(f'OTR TRUCKS DATABASE - {self.brand.upper()}.csv')
-        pd_truck_data = pd_truck_data[['MODEL',self.model]]
+        pd_truck_data = pd_truck_data[['MODEL', self.model]]
         self.cost = float(pd_truck_data[self.model].loc[0])
         self.capacity = float(pd_truck_data[self.model].loc[1])
         self.avg_speed = pd_truck_data[['MODEL', '770G']].loc[4:].set_index('MODEL')

@@ -1,6 +1,6 @@
 
 .idea/
 
-Objects/__pycache__/
+__pycache__
 
-Solver/__pycache__/
+NSGA_debug.txt

@@ -3,6 +3,7 @@ import math
 from Objects.Task import *
 from Objects.Graph import *
 from Solver.Solution import *
+from Solver.NSGA import *
 
 
 class NSGASolver:
@@ -16,6 +17,8 @@ class NSGASolver:
         self.dump_node_count = []
         self.dump_strategy = 0
         self.task_array_strategy = 0
+        self.task_array = []
+        self.solver = None
         self.get_types_id()
 
     def get_types_id(self):
@@ -56,7 +59,7 @@ class NSGASolver:
         return -1
 
     def generate_task_array(self):
-        task_array = np.array([]).astype(Task)
+        self.task_array = np.array([]).astype(Task)
         tasks_per_objective = []
         tasks_quantities = []
         for objective in self.objectives:
@@ -76,10 +79,14 @@ class NSGASolver:
             for task_number in range(max_tasks_number):
                 for tasks in tasks_per_objective:
                     if task_number < len(tasks):
-                        task_array = np.concatenate((task_array, [tasks[task_number]]))
+                        self.task_array = np.concatenate((self.task_array, [tasks[task_number]]))
 
         elif self.task_array_strategy == 1:  # Join tasks in order of objectives
             for tasks in tasks_per_objective:
-                task_array = np.concatenate((task_array, tasks))
+                self.task_array = np.concatenate((self.task_array, tasks))
 
-        return task_array
+        return self.task_array
+
+    def run(self):
+        self.solver = NSGAII(self.graph, self.task_array, self.trucks)
+        self.solver.run_debug(100)
