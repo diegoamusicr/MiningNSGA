@@ -17,14 +17,11 @@ def min_idle_time(solution):
 
 class NSGAII:
     def __init__(self, graph, task_array, trucks_array):
-        # self.objective_functions = [min_tasks_per_truck, min_total_time, min_idle_time]
-        # self.objective_min = [0, 0, 0]
-        # self.objective_max = [1000, 100000, 100000]
-        self.objective_functions = [min_tasks_per_truck]
-        self.objective_min = [0]
-        self.objective_max = [1000]
+        self.objective_functions = [min_tasks_per_truck, min_total_time, min_idle_time]
+        self.objective_min = [0, 0, 0]
+        self.objective_max = [1000, 100000, 100000]
         self.solution_size = len(task_array)
-        self.population_size = 24
+        self.population_size = 20
         self.tournament_size = 3
         self.prob_cross = 0.7
         self.prob_mutation = 0.002 * self.solution_size
@@ -158,6 +155,7 @@ class NSGAII:
         orig_stdout = sys.stdout
         output_file = open('NSGA_debug.txt', 'w')
         sys.stdout = output_file
+        np.set_printoptions(suppress=True)
 
         self.init_population()
         print('Initial Population:')

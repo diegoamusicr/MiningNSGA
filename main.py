@@ -1,6 +1,8 @@
 from Objects.Truck import *
 from Solver.Solver import *
 from Solver.Schedule import *
+import time
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -61,25 +63,15 @@ if __name__ == '__main__':
 
     objectives = [Objective(3, 500), Objective(4, 600), Objective(7, 1110)]
 
+    start_time = time.time()
     N = NSGASolver(G, trucks, objectives)
     N.generate_task_array()
     N.run()
+    print("--- %s seconds ---" % (time.time() - start_time))
     # tasks = N.generate_task_array()
 
-    # S1 = Solution(G, tasks, trucks)
-    # S2 = Solution(G, tasks, trucks)
-    # S3 = Solution(G, tasks, trucks)
-    # S4 = Solution(G, tasks, trucks)
-    # SC1 = Schedule(G, trucks, tasks, S1, 1)
-    # SC2 = Schedule(G, trucks, tasks, S2, 1)
-    # SC3 = Schedule(G, trucks, tasks, S3, 1)
-    # SC4 = Schedule(G, trucks, tasks, S4, 1)
+    # S1 = Solution(G, N.task_array, trucks)
+    # SC1 = Schedule(G, N.task_array,  trucks, S1, 10)
     # SC1.calculate_routes()
-    # SC2.calculate_routes()
-    # SC3.calculate_routes()
-    # SC4.calculate_routes()
     # SC1.calculate_schedule()
-    # SC2.calculate_schedule()
-    # SC3.calculate_schedule()
-    # SC4.calculate_schedule()
     pass

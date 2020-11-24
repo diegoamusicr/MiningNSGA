@@ -63,6 +63,8 @@ class Solution:
             self.tasks_per_truck[truck_id] = len(fixed_order)
 
     def eval(self):
-        schedule = Schedule(self.graph, self.tasks, self.trucks, self, 1)
+        schedule = Schedule(self.graph, self.tasks, self.trucks, self, 10)
         schedule.calculate_routes()
-        # schedule.calculate_schedule()
+        schedule.calculate_schedule()
+        self.time_total = schedule.time_total
+        self.time_idle = schedule.time_crsh_idle
