@@ -1,5 +1,6 @@
 import numpy as np
 from enum import Enum, auto
+import pandas as pd
 
 
 class NodeType(Enum):
@@ -8,15 +9,15 @@ class NodeType(Enum):
     CRSH = auto()
     DUMP = auto()
     ROUT = auto()
-    WSHP = auto()
 
 
 class Node:
-    def __init__(self, n_type, n_name='', n_capacity=0, n_id=0):
+    def __init__(self, n_type, n_name='', n_capacity=0, n_id=0, n_grade=0.0):
         self.type = n_type
         self.name = n_name
         self.id = n_id
         self.capacity = n_capacity
+        self.grade = n_grade
         self.load = 0
 
 
@@ -34,6 +35,32 @@ class Graph:
         self.next = np.array([])
         self.distances = np.array([])
         self.paths = np.array([])
+        self.bench_qty = 0
+
+    def load_nodes_txt(self, filename):
+        dataframe = pd.read_csv(filename, sep=';')
+        if not dataframe.empty:
+            for _, row in dataframe.iterrows():
+                self.add_node(Node(
+                    NodeType(int(row['NODE_TYPE'])),
+                    row['NODE_NAME'],
+                    (int(row['NODE_CAPACITY']) if not np.isnan(row['NODE_CAPACITY']) else 0),
+                    int(row['NODE_ID']),
+                    (float(row['NODE_GRADE']) if not np.isnan(row['NODE_GRADE']) else 0.0)))
+        else:
+            raise Exception("File is empty")
+
+    def load_edges_txt(self, filename):
+        dataframe = pd.read_csv(filename, sep=';')
+        if not dataframe.empty:
+            for _, row in dataframe.iterrows():
+                self.add_edge(int(row['NODE_1_ID']),
+                              int(row['NODE_2_ID']),
+                              Edge(float(row['DISTANCE']),
+                                   float(row['FRICTION']),
+                                   float(row['SLOPE'])))
+        else:
+            raise Exception("File is empty")
 
     def add_node(self, node):
         node.id = len(self.nodes)
@@ -43,6 +70,7 @@ class Graph:
         tmp_row += [Edge(0.0)]
         self.edges = np.hstack((self.edges, np.array([tmp_col]).T)) if len(tmp_col) else self.edges
         self.edges = np.vstack((self.edges, np.array([tmp_row])))
+        self.bench_qty += node.type == NodeType.BNCH
 
     def add_edge(self, node1_id, node2_id, edge):
         #friction and slope should contain 2 decimals maximum

@@ -28,12 +28,11 @@ class Truck:
     time_unload = 35
     length = 0.03
 
-    def __init__(self, t_start_node, t_id=0, t_brand='', t_model='', t_rate=0, t_duration=0, t_capacity=-1):
+    def __init__(self, t_start_node, t_id=0, t_brand='', t_model='', t_capacity=-1):
         self.id = t_id
         self.tasks = np.array([]).astype(Task)
         self.tasks_ids = np.array([])
         self.start_node = t_start_node
-        self.maintenance = (t_rate, t_duration)
         self.brand = t_brand
         self.model = t_model
         self.capacity = t_capacity

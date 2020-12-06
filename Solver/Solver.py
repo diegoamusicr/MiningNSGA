@@ -66,6 +66,7 @@ class NSGASolver:
             tasks_quantity = math.ceil(objective.work_tons / self.truck_load)
             if self.graph.nodes[objective.work_node_id].type == NodeType.BNCH:
                 tasks_objective = [Task(objective.work_node_id, self.crusher_node_id) for _ in range(tasks_quantity)]
+                Solution.unloads_qty += tasks_quantity
             elif self.graph.nodes[objective.work_node_id].type == NodeType.CLEA:
                 tasks_objective = [Task(objective.work_node_id, self.get_available_dump_id()) for _ in
                                    range(tasks_quantity)]

@@ -15,11 +15,15 @@ def min_idle_time(solution):
     return solution.time_idle
 
 
+def min_grade_variance(solution):
+    return solution.grade_variance
+
+
 class NSGAII:
     def __init__(self, graph, task_array, trucks_array):
-        self.objective_functions = [min_tasks_per_truck, min_total_time, min_idle_time]
+        self.objective_functions = [min_tasks_per_truck, min_total_time, min_grade_variance]
         self.objective_min = [0, 0, 0]
-        self.objective_max = [1000, 100000, 100000]
+        self.objective_max = [1000, 100000, 1]
         self.solution_size = len(task_array)
         self.population_size = 20
         self.tournament_size = 3

@@ -13,11 +13,16 @@ class Schedule:
         self.solution = solution
         self.time_delta = time_delta
         self.schedule = {}
+        self.grades = {}
         self.time_crsh_use = 0
         self.time_crsh_idle = 0
         self.time_total = 0
+        self.grade_variance = np.inf
         self.distance_policy = 2 * Truck.length
-        self.trucks_reduced_speed = np.array([])
+        self.unload_discrete_time = math.ceil(Truck.time_unload / self.time_delta)
+        self.window_size = self.unload_discrete_time * (self.graph.bench_qty + 1)
+        self.window_qty = math.ceil(solution.unloads_qty * self.unload_discrete_time / self.window_size)
+        self.window_avg = np.array([])
         self.assign_tasks()
 
     # Sort Tasks by order and add tasks to trucks
@@ -119,6 +124,8 @@ class Schedule:
             frame_second[0][truck_id] = frame_info
             frame_second[1][frame_info.next_node_id] = finish_time - second
             self.time_crsh_use += using_crusher
+        if using_crusher:
+            self.grades[start_time] = self.graph.nodes[self.tasks[truck_info.current_task_id].node_load_id].grade
 
     def calculate_schedule(self):
         # self.schedule =
@@ -194,9 +201,15 @@ class Schedule:
                         current_time = finish_time
 
                         # Load / Unload
-                        self.truck_work(truck.id, current_time, total_time, truck_info)
-                        current_time = total_time
+                        finish_time = current_time + time_work
+                        self.truck_work(truck.id, current_time, finish_time, truck_info)
+                        current_time = finish_time
 
         self.time_total = len(self.schedule) * self.time_delta
         self.time_crsh_use *= self.time_delta
         self.time_crsh_idle = self.time_total - self.time_crsh_use
+
+    def calculate_grade_variance(self):
+        ordered_grades = np.array(list(self.grades.values()))[np.argsort(list(self.grades))]
+        self.window_avg = [np.mean(window) for window in np.array_split(ordered_grades, self.window_qty)]
+        self.grade_variance = np.var(self.window_avg)

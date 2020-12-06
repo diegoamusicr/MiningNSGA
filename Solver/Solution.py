@@ -11,6 +11,7 @@ class Objective:
 
 
 class Solution:
+    unloads_qty = 0
 
     def __init__(self, graph, task_array, trucks_array, solution=None, idx=None):
         self.graph = graph
@@ -21,6 +22,7 @@ class Solution:
         self.tasks_per_truck = {}
         self.time_total = -1
         self.time_idle = -1
+        self.grade_variance = np.inf
         self.idx = idx
         self.solution = solution
         if self.solution is None:
@@ -66,5 +68,7 @@ class Solution:
         schedule = Schedule(self.graph, self.tasks, self.trucks, self, 10)
         schedule.calculate_routes()
         schedule.calculate_schedule()
+        schedule.calculate_grade_variance()
         self.time_total = schedule.time_total
         self.time_idle = schedule.time_crsh_idle
+        self.grade_variance = schedule.grade_variance
